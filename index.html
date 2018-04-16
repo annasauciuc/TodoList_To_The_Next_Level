@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Romero todo</title>
+    </head>
+    <style>
+        body {
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ul {
+            max-width: 340px;
+            list-style-type: none;
+            padding: 0.1em;
+            margin: 0.5em 0;
+            margin-left: 0.7em;
+        }
+
+        li {
+            padding: 0.2em;
+            color: blueviolet;
+            cursor: pointer;
+            transition: 0.3s ease-in all;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 20px;
+            line-height: 1.1;
+            width: 100%;
+            opacity: 1;
+        }
+
+        li:hover {
+            background: gainsboro;
+            padding: 0.3em 0;
+            padding-left: 0.3em;
+        }
+
+        p.error {
+            color: red;
+            font-style: italic;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .fadeOut {
+            animation: fade 2s linear;
+            background: rgb(253, 119, 107);
+        }
+
+        @keyframes fade {
+            0%,
+            100% {
+                opacity: 0
+            }
+            50% {
+                opacity: 1
+            }
+        }
+
+    </style>
+
+    <body>
+        <h3>Todo list experiment</h3>
+        <hr>
+        <h4>Tu tarea:
+            <strong>
+                <em>
+                    <span id="infotask"></span>
+                </em>
+            </strong>
+            ha sido añadida con exito </h4>
+        <ul id="todolist">
+
+        </ul>
+
+        <form action="" id="todoform">
+            <input class="addInput" type="text" name="todoitem">
+            <button type="submit">Nueva tarea</button>
+        </form>
+        <p class="error"></p>
+        <script>
+            const form = getID('todoform');
+            const todolist = getID('todolist');
+            const infotask = getID('infotask');
+            const error = document.querySelector('p.error');
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                let formInput = document.querySelector(`form#${e.target.id} .addInput`);
+                let inputData = formInput.value;
+                if (validateInput(inputData)) {
+                    createTodoItem(inputData);
+                    infotask.innerText = inputData;
+                }
+            })
+
+            todolist.addEventListener('click', (e) => {
+                if (confirm("¿Estas seguro de querer borrarlo?")) {
+                    e.target.classList.add("fadeOut");
+                    setTimeout(() => {
+                        todolist.removeChild(e.target);
+                    }, 2000);
+                }
+            })
+            function createTodoItem(inputData) {
+                const fragment = document.createDocumentFragment();
+                let li = document.createElement('li');
+                li.innerText = inputData.trim();
+                fragment.appendChild(li);
+                todolist.appendChild(li);
+            }
+
+            function validateInput(inputData) {
+                if (inputData === "" || typeof inputData === null) {
+                    error.innerText = "no se puede añadir una tarea vacia";
+                    return false;
+                }
+                return true;
+            }
+            function getID(id) {
+                return document.getElementById(id);
+            }
+        </script>
+    </body>
+
+</html>
