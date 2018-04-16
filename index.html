@@ -24,7 +24,6 @@
         li {
             padding: 0.2em;
             color: blueviolet;
-            cursor: pointer;
             transition: 0.3s ease-in all;
             font-family: Georgia, 'Times New Roman', Times, serif;
             font-size: 20px;
@@ -48,6 +47,29 @@
         .fadeOut {
             animation: fade 2s linear;
             background: rgb(253, 119, 107);
+        }
+
+        button {
+            background: green;
+            color: white;
+            padding: 0.3em;
+            border: 1px white solid;
+            font-size: 18px;
+            transition: 0.3s ease all;
+        }
+
+        button.check {
+            background: green;
+
+        }
+
+        button.delete {
+            background: red;
+        }
+
+        button:hover {
+            padding: 0.5em;
+            cursor: pointer;
         }
 
         @keyframes fade {
@@ -81,6 +103,7 @@
             <button type="submit">Nueva tarea</button>
         </form>
         <p class="error"></p>
+        <ul id="todolistchecked"></ul>
         <script>
             const form = getID('todoform');
             const todolist = getID('todolist');
@@ -98,19 +121,36 @@
             })
 
             todolist.addEventListener('click', (e) => {
-                if (confirm("¿Estas seguro de querer borrarlo?")) {
-                    e.target.classList.add("fadeOut");
-                    setTimeout(() => {
-                        todolist.removeChild(e.target);
-                    }, 2000);
+
+                if (e.target.className === "delete") {
+                    if (confirm("¿Estas seguro de querer borrarlo?")) {
+                        e.target.parentNode.classList.add("fadeOut");
+                        setTimeout(() => {
+                            todolist.removeChild(e.target.parentNode);
+                        }, 2000);
+                    }
+                } else {
+                    alert("Tarea terminadaaa")
                 }
             })
             function createTodoItem(inputData) {
                 const fragment = document.createDocumentFragment();
                 let li = document.createElement('li');
                 li.innerText = inputData.trim();
+                let checkButton = document.createElement('button');
+                checkButton.innerText = "Hecho";
+                checkButton.classList.add('check');
+                checkButton.setAttribute('title', 'Finalizar la tarea');
+
+                let deleteButton = document.createElement('button');
+                deleteButton.innerText = "Borrar";
+                deleteButton.classList.add('delete');
+                deleteButton.setAttribute('title', 'Borrar la tarea');
+
+                li.appendChild(checkButton);
+                li.appendChild(deleteButton);
                 fragment.appendChild(li);
-                todolist.appendChild(li);
+                todolist.appendChild(fragment);
             }
 
             function validateInput(inputData) {
