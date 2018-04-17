@@ -1,169 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Romero todo</title>
-    </head>
-    <style>
-        body {
-            padding: 0;
-            box-sizing: border-box;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Romero todo</title>
+</head>
+<style>
+    body {
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    ul {
+        max-width: 340px;
+        list-style-type: none;
+        padding: 0.1em;
+        margin: 0.5em 0;
+        margin-left: 0.7em;
+    }
+
+    li {
+        padding: 0.2em;
+        color: blueviolet;
+        transition: 0.3s ease-in all;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        font-size: 20px;
+        line-height: 1.1;
+        width: 100%;
+        opacity: 1;
+    }
+
+    li:hover {
+        background: gainsboro;
+        padding: 0.3em 0;
+        padding-left: 0.3em;
+    }
+
+    p.error {
+        color: red;
+        font-style: italic;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .fadeOut {
+        animation: fade 2s linear;
+        background: rgb(253, 119, 107);
+    }
+
+    button {
+        background: green;
+        color: white;
+        padding: 0.3em;
+        border: 1px white solid;
+        font-size: 18px;
+        transition: 0.3s ease all;
+    }
+
+    button.check {
+        background: green;
+
+    }
+
+    button.delete {
+        background: red;
+    }
+
+    button:hover {
+        padding: 0.5em;
+        cursor: pointer;
+    }
+
+    @keyframes fade {
+        0%,
+        100% {
+            opacity: 0
         }
-
-        ul {
-            max-width: 340px;
-            list-style-type: none;
-            padding: 0.1em;
-            margin: 0.5em 0;
-            margin-left: 0.7em;
+        50% {
+            opacity: 1
         }
+    }
+</style>
 
-        li {
-            padding: 0.2em;
-            color: blueviolet;
-            transition: 0.3s ease-in all;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            font-size: 20px;
-            line-height: 1.1;
-            width: 100%;
-            opacity: 1;
-        }
+<body>
+    <h3>Todo list experiment</h3>
+    <hr>
+    <h4>Tu tarea:
+        <strong>
+            <em>
+                <span id="infotask"></span>
+            </em>
+        </strong>
+        ha sido añadida con exito </h4>
+    <ul id="todolist">
 
-        li:hover {
-            background: gainsboro;
-            padding: 0.3em 0;
-            padding-left: 0.3em;
-        }
+    </ul>
 
-        p.error {
-            color: red;
-            font-style: italic;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
+    <form action="" id="todoform">
+        <input class="addInput" type="text" name="todoitem" autocomplete="on" autofocus>
+        <button type="submit">Nueva tarea</button>
+    </form>
+    <p class="error"></p>
+    <ul id="todolistchecked"></ul>
+    <script>
+        const form = getID('todoform');
+        const todolist = getID('todolist');
+        const infotask = getID('infotask');
+        const addInput = document.querySelector('form#todoform input.addInput');
+        const error = document.querySelector('p.error');
 
-        .fadeOut {
-            animation: fade 2s linear;
-            background: rgb(253, 119, 107);
-        }
-
-        button {
-            background: green;
-            color: white;
-            padding: 0.3em;
-            border: 1px white solid;
-            font-size: 18px;
-            transition: 0.3s ease all;
-        }
-
-        button.check {
-            background: green;
-
-        }
-
-        button.delete {
-            background: red;
-        }
-
-        button:hover {
-            padding: 0.5em;
-            cursor: pointer;
-        }
-
-        @keyframes fade {
-            0%,
-            100% {
-                opacity: 0
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let formInput = document.querySelector(`form#${e.target.id} .addInput`);
+            let inputData = formInput.value;
+            if (validateInput(inputData)) {
+                createTodoItem(inputData);
+                infotask.innerText = inputData;
+                addInput.value = "";
             }
-            50% {
-                opacity: 1
-            }
-        }
+        })
 
-    </style>
+        todolist.addEventListener('click', (e) => {
 
-    <body>
-        <h3>Todo list experiment</h3>
-        <hr>
-        <h4>Tu tarea:
-            <strong>
-                <em>
-                    <span id="infotask"></span>
-                </em>
-            </strong>
-            ha sido añadida con exito </h4>
-        <ul id="todolist">
-
-        </ul>
-
-        <form action="" id="todoform">
-            <input class="addInput" type="text" name="todoitem">
-            <button type="submit">Nueva tarea</button>
-        </form>
-        <p class="error"></p>
-        <ul id="todolistchecked"></ul>
-        <script>
-            const form = getID('todoform');
-            const todolist = getID('todolist');
-            const infotask = getID('infotask');
-            const error = document.querySelector('p.error');
-
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                let formInput = document.querySelector(`form#${e.target.id} .addInput`);
-                let inputData = formInput.value;
-                if (validateInput(inputData)) {
-                    createTodoItem(inputData);
-                    infotask.innerText = inputData;
+            if (e.target.className === "delete") {
+                if (confirm("¿Estas seguro de querer borrarlo?")) {
+                    e.target.parentNode.classList.add("fadeOut");
+                    setTimeout(() => {
+                        todolist.removeChild(e.target.parentNode);
+                    }, 2000);
                 }
-            })
-
-            todolist.addEventListener('click', (e) => {
-
-                if (e.target.className === "delete") {
-                    if (confirm("¿Estas seguro de querer borrarlo?")) {
-                        e.target.parentNode.classList.add("fadeOut");
-                        setTimeout(() => {
-                            todolist.removeChild(e.target.parentNode);
-                        }, 2000);
-                    }
-                } else {
-                    alert("Tarea terminadaaa")
-                }
-            })
-            function createTodoItem(inputData) {
-                const fragment = document.createDocumentFragment();
-                let li = document.createElement('li');
-                li.innerText = inputData.trim();
-                let checkButton = document.createElement('button');
-                checkButton.innerText = "Hecho";
-                checkButton.classList.add('check');
-                checkButton.setAttribute('title', 'Finalizar la tarea');
-
-                let deleteButton = document.createElement('button');
-                deleteButton.innerText = "Borrar";
-                deleteButton.classList.add('delete');
-                deleteButton.setAttribute('title', 'Borrar la tarea');
-
-                li.appendChild(checkButton);
-                li.appendChild(deleteButton);
-                fragment.appendChild(li);
-                todolist.appendChild(fragment);
+            } else {
+                alert("Tarea terminadaaa")
             }
+        })
+        function createTodoItem(inputData) {
+            const fragment = document.createDocumentFragment();
+            let li = document.createElement('li');
+            li.innerText = inputData.trim();
+            li.classList.add('todoitem')
 
-            function validateInput(inputData) {
-                if (inputData === "" || typeof inputData === null) {
-                    error.innerText = "no se puede añadir una tarea vacia";
-                    return false;
-                }
-                return true;
+
+            let checkButton = createTodoButton(
+                {
+                    text: "Hecho",
+                    className: 'check',
+                    attribute: "Finalizar la tarea"
+                });
+
+            let deleteButton = createTodoButton(
+                {
+                    text: "Borrar",
+                    className: 'delete',
+                    attribute: "Borrar la tarea"
+                });
+
+            li.appendChild(checkButton);
+            li.appendChild(deleteButton);
+            fragment.appendChild(li);
+            todolist.appendChild(fragment);
+        }
+
+        function validateInput(inputData) {
+            if (inputData === "" || typeof inputData === null) {
+                error.innerText = "no se puede añadir una tarea vacia";
+                return false;
             }
-            function getID(id) {
-                return document.getElementById(id);
-            }
-        </script>
-    </body>
+            return true;
+        }
+
+        function createTodoButton(data) {
+            let button = document.createElement('button');
+            button.innerText = data.text;
+            button.classList.add(data.className);
+            button.setAttribute('title', data.attribute);
+            return button;
+        }
+        function getID(id) {
+            return document.getElementById(id);
+        }
+    </script>
+</body>
 
 </html>
