@@ -170,6 +170,12 @@
         cursor: pointer;
     }
 
+    button:disabled,
+    button[disabled] {
+        border: 1px solid #999999;
+        background-color: rgb(204, 26, 26);
+    }
+
     @keyframes fade {
         0%,
         100% {
@@ -272,14 +278,14 @@
     </div>
 
     <form action="" id="todoform">
-        <input class="addInput" type="text" name="todoitem" autocomplete="on" autofocus>
+        <input class="addInput" type="text" maxlength="75" name="todoitem" autocomplete="on" autofocus>
         <button type="submit">Nueva tarea</button>
     </form>
     <div class="alert">
         <span class="dismiss-alert">&times;</span>
         <p class="error"></p>
     </div>
-
+    <script src="https://caja.appspot.com/html-css-sanitizer-minified.js"></script>
     <script>
         const form = getID('todoform');
         const todolist = getID('todolist');
@@ -295,7 +301,7 @@
             let formInput = document.querySelector(`form#${e.target.id} .addInput`);
             let addButton = document.querySelector(`form#${e.target.id} button`)
             let inputData = formInput.value;
-            if (validateInput(inputData)) {
+            if (validateInput(inputData, addButton)) {
                 buttonLoading(addButton);
                 createTodoItem(inputData);
                 infotask.innerText = inputData.trim();
@@ -308,6 +314,9 @@
 
         todolist.addEventListener('click', (e) => {
             if (e.target.className === "delete") {
+                const audio = new Audio('sounds/deleteSound.mp3');
+                audio.currentTime = 1.5;
+                audio.play();
                 if (confirm("¿Estas seguro de querer borrarlo?")) {
                     let todoItem = e.target.parentNode.parentNode;
                     let todoItemValue = todoItem.firstElementChild.innerText;
@@ -331,7 +340,10 @@
         function createTodoItem(inputData) {
             const fragment = document.createDocumentFragment();
             let li = document.createElement('li');
-            li.innerHTML = `<p>${inputData.trim()}</p>`;
+            let sanitized = html_sanitize(
+                inputData.trim(),
+                urlTransformer, classIdTransformer);
+            li.innerHTML = `<p>${sanitized}</p>`;
             li.classList.add('todoitem')
             let wrapperDivButtons = document.createElement('div');
 
@@ -356,8 +368,15 @@
             todolist.appendChild(fragment);
         }
 
-        function validateInput(inputData) {
-            if (inputData === "" || typeof inputData === null) {
+        function validateInput(inputData, addButon) {
+            if (inputData.trim() === "" || typeof inputData === null) {
+                addButon.setAttribute('disabled', true);
+                setTimeout(() => {
+                    addButon.removeAttribute('disabled');
+
+                }, 1000)
+                const audio = new Audio('sounds/errorSound.mp3');
+                audio.play();
                 errorAlert.style.display = "block";
                 error.innerText = "No se puede añadir una tarea vacia";
                 return false;
@@ -392,6 +411,21 @@
                 button.classList.remove("saving");
             }
         }
+
+        function urlTransformer(url) {
+            console.log("Transforming URL: %s", url);
+            return "http://goodsite.com/goodimage.jpg";
+        };
+
+        // Takes in an element ID or class name and either modifies it or strips it by returning null
+        function classIdTransformer(name) {
+            console.log("Transforming Class/Id: %s", name);
+
+            if (name !== 'myImage') {
+                return name;
+            }
+        };
+
     </script>
 </body>
 
