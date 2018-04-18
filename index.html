@@ -11,14 +11,36 @@
     body {
         padding: 0;
         box-sizing: border-box;
+        background-color: rgba(21, 21, 59, 0.7);
+        color: white;
+    }
+
+    div.main-container {
+        margin: 0 auto;
+        width: 50%;
+        -webkit-box-shadow: 1px 5px 12px 0px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 1px 5px 12px 0px rgba(0, 0, 0, 0.75);
+        box-shadow: 1px 5px 12px 0px rgba(0, 0, 0, 0.75);
+        padding: 1em;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: rgba(10, 10, 1, 0.8);
+        transition: 0.4s ease-in all;
+        text-align: center;
+        border-radius: 2px;
+    }
+
+    div.main-container:hover {
+        -webkit-box-shadow: 1px 5px 12px -28px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 1px 5px 12px -28px rgba(0, 0, 0, 0.75);
+        box-shadow: 1px 5px 12px -28px rgba(0, 0, 0, 0.75);
+        border: 1px solid #fafafa;
     }
 
     ul {
-        max-width: 340px;
         list-style-type: none;
         padding: 0.1em;
-        margin: 0.5em 0;
-        margin-left: 0.7em;
+        margin: 0;
+        width: 100%;
     }
 
     li {
@@ -26,22 +48,95 @@
         color: blueviolet;
         transition: 0.3s ease-in all;
         font-family: Georgia, 'Times New Roman', Times, serif;
-        font-size: 20px;
+        font-size: 19px;
         line-height: 1.1;
         width: 100%;
         opacity: 1;
+        display: flex;
+        justify-content: space-around;
+        align-content: center;
+        align-items: center;
     }
 
     li:hover {
         background: gainsboro;
         padding: 0.3em 0;
         padding-left: 0.3em;
+        border-radius: 5px;
     }
 
-    p.error {
-        color: red;
+    li div {
+        display: flex;
+        align-content: center;
+        align-items: center;
+    }
+
+    li div p {
+        margin-right: 2px;
+        margin-left: 2px;
+    }
+
+    span#infoTask,
+    span#infoAction {
+        font-weight: bold;
+        font-style: italic;
+    }
+
+    span#infoTask {
+        color: blue;
+
+    }
+
+    form {
+        margin: 1em auto;
+        padding: 0.3em;
+        text-align: center;
+        width: 70%;
+        display: flex;
+        justify-content: center;
+    }
+
+    form input.addInput {
+        border: none;
+        font-size: 25px;
+        background: rgba(240, 255, 255, 0.7);
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        width: 60%;
+        transition: 0.3s ease all;
+    }
+
+    form input.addInput:focus {
+        padding: 0.4em;
+        background-color: rgb(243, 233, 233);
+    }
+
+    div.alert {
+        background: rgb(204, 26, 26);
+        border-radius: 8px;
+        width: 50%;
+        padding: 0.4em;
+        margin: 0 auto;
+        display: none;
+        position: relative;
+
+    }
+
+    div.alert span.dismiss-alert {
+        color: white;
+        font-size: 25px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 1px 3px;
+        padding: 1px 3px;
+        cursor: pointer;
+    }
+
+    div.alert p.error {
+        color: rgb(104, 7, 7);
         font-style: italic;
         font-family: Verdana, Geneva, Tahoma, sans-serif;
+        text-align: center;
     }
 
     .fadeOut {
@@ -54,7 +149,7 @@
         color: white;
         padding: 0.3em;
         border: 1px white solid;
-        font-size: 18px;
+        font-size: 16px;
         transition: 0.3s ease all;
     }
 
@@ -81,53 +176,140 @@
             opacity: 1
         }
     }
+
+    @keyframes blink {
+        /**
+     * At the start of the animation the dot
+     * has an opacity of .2
+     */
+        0% {
+            opacity: .2;
+        }
+        /**
+     * At 20% the dot is fully visible and
+     * then fades out slowly
+     */
+        20% {
+            opacity: 1;
+        }
+        /**
+     * Until it reaches an opacity of .2 and
+     * the animation can start again
+     */
+        100% {
+            opacity: .2;
+        }
+    }
+
+    .saving {
+        width: 100px;
+    }
+
+    .saving span {
+        /**
+     * Use the blink animation, which is defined above
+     */
+        animation-name: blink;
+        /**
+     * The animation should take 1.4 seconds
+     */
+        animation-duration: 1.4s;
+        /**
+     * It will repeat itself forever
+     */
+        animation-iteration-count: infinite;
+        /**
+     * This makes sure that the starting style (opacity: .2)
+     * of the animation is applied before the animation starts.
+     * Otherwise we would see a short flash or would have
+     * to set the default styling of the dots to the same
+     * as the animation. Same applies for the ending styles.
+     */
+        animation-fill-mode: both;
+        margin-right: 10px;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    .saving span:nth-child(2) {
+        /**
+     * Starts the animation of the third dot
+     * with a delay of .2s, otherwise all dots
+     * would animate at the same time
+     */
+        animation-delay: .2s;
+    }
+
+    .saving span:nth-child(3) {
+        /**
+     * Starts the animation of the third dot
+     * with a delay of .4s, otherwise all dots
+     * would animate at the same time
+     */
+        animation-delay: .4s;
+    }
 </style>
 
 <body>
-    <h3>Todo list experiment</h3>
-    <hr>
-    <h4>Tu tarea:
-        <strong>
-            <em>
-                <span id="infotask"></span>
-            </em>
-        </strong>
-        ha sido añadida con exito </h4>
-    <ul id="todolist">
+    <div class="main-container">
+        <header>
+            <h1>Todo list experiment</h1>
+        </header>
+        <hr>
+        <h4>Tu tarea:
+            <span id="infoTask">-------</span>
+            ha sido
+            <span id="infoAction">--------</span> con éxito </h4>
+        <ul id="todolist">
 
-    </ul>
+        </ul>
+
+        <ul id="todolistchecked"></ul>
+    </div>
 
     <form action="" id="todoform">
         <input class="addInput" type="text" name="todoitem" autocomplete="on" autofocus>
         <button type="submit">Nueva tarea</button>
     </form>
-    <p class="error"></p>
-    <ul id="todolistchecked"></ul>
+    <div class="alert">
+        <span class="dismiss-alert">&times;</span>
+        <p class="error"></p>
+    </div>
+
     <script>
         const form = getID('todoform');
         const todolist = getID('todolist');
-        const infotask = getID('infotask');
+        const infotask = getID('infoTask');
+        const infoAction = getID('infoAction');
         const addInput = document.querySelector('form#todoform input.addInput');
+        const errorAlert = document.querySelector('div.alert');
         const error = document.querySelector('p.error');
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             let formInput = document.querySelector(`form#${e.target.id} .addInput`);
+            let addButton = document.querySelector(`form#${e.target.id} button`)
             let inputData = formInput.value;
             if (validateInput(inputData)) {
+                buttonLoading(addButton);
                 createTodoItem(inputData);
                 infotask.innerText = inputData;
+                infoAction.innerText = "añadida";
+                infoAction.style.color = "green";
                 addInput.value = "";
+                buttonLoading(addButton, false)
             }
         })
 
         todolist.addEventListener('click', (e) => {
-
             if (e.target.className === "delete") {
                 if (confirm("¿Estas seguro de querer borrarlo?")) {
-                    e.target.parentNode.classList.add("fadeOut");
+                    e.target.parentNode.parentNode.classList.add("fadeOut");
                     setTimeout(() => {
-                        todolist.removeChild(e.target.parentNode);
+                        todolist.removeChild(e.target.parentNode.parentNode);
+                        infoAction.innerText = "borrada";
+                        infoAction.style.color = "red";
                     }, 2000);
                 }
             } else {
@@ -137,9 +319,9 @@
         function createTodoItem(inputData) {
             const fragment = document.createDocumentFragment();
             let li = document.createElement('li');
-            li.innerText = inputData.trim();
+            li.innerHTML = `<p>${inputData.trim()}</p>`;
             li.classList.add('todoitem')
-
+            let wrapperDivButtons = document.createElement('div');
 
             let checkButton = createTodoButton(
                 {
@@ -155,15 +337,17 @@
                     attribute: "Borrar la tarea"
                 });
 
-            li.appendChild(checkButton);
-            li.appendChild(deleteButton);
+            wrapperDivButtons.appendChild(checkButton);
+            wrapperDivButtons.appendChild(deleteButton);
+            li.appendChild(wrapperDivButtons);
             fragment.appendChild(li);
             todolist.appendChild(fragment);
         }
 
         function validateInput(inputData) {
             if (inputData === "" || typeof inputData === null) {
-                error.innerText = "no se puede añadir una tarea vacia";
+                errorAlert.style.display = "block";
+                error.innerText = "No se puede añadir una tarea vacia";
                 return false;
             }
             return true;
@@ -178,6 +362,23 @@
         }
         function getID(id) {
             return document.getElementById(id);
+        }
+
+        function buttonLoading(button, load = true) {
+            if (load) {
+                button.innerText = "";
+                let count = 0;
+                while (count < 3) {
+                    let span = document.createElement('span');
+                    span.innerText = ".";
+                    button.appendChild(span);
+                    count++;
+                }
+                button.classList.add("saving");
+            } else {
+                button.innerHTML = "Nueva tarea";
+                button.classList.remove("saving");
+            }
         }
     </script>
 </body>
