@@ -32,7 +32,7 @@ todolist.addEventListener("click", e => {
       audio.play();
       let todoItem = e.target.parentNode.parentNode;
       let todoItemValue = todoItem.firstElementChild.innerText;
-      todoItem.classList.add("fadeOut");
+      todoItem.classList.add("fadeOutDeleted");
       setTimeout(() => {
         todolist.removeChild(todoItem);
         infoTask.innerText = todoItemValue.trim();
@@ -40,19 +40,26 @@ todolist.addEventListener("click", e => {
         infoAction.style.color = "red";
       }, 2000);
     }
-  } else {
+  } else if (e.target.className === "check") {
     if (confirm("¿Estas seguro de dar la tarea por finalizada?")) {
       const item = e.target.parentNode.parentNode;
-      console.log(item);
-      item.removeChild(item.children[1]); //Remove div that have buttons
-      const itemCopy = item.cloneNode(true);
-      itemCopy.classList.add("checked");
-      const spanForDate = document.createElement("span");
-      spanForDate.classList.add("finishedDate");
-      spanForDate.innerText = `${new Date().toLocaleDateString()} ~ ${new Date().toLocaleTimeString()} `;
-      itemCopy.appendChild(spanForDate);
-      todolistchecked.appendChild(itemCopy);
-      item.remove();
+      item.classList.add("fadeOutChecked");
+      const audio = new Audio("sounds/successSound.mp3");
+      audio.play();
+      setTimeout(() => {
+        item.removeChild(item.children[1]); //Remove div that have buttons
+        const itemCopy = item.cloneNode(true);
+        itemCopy.classList.add("checked");
+        const spanForDate = document.createElement("span");
+        spanForDate.classList.add("finishedDate");
+        spanForDate.innerText = `${new Date().toLocaleDateString()} ~ ${new Date().toLocaleTimeString()} `;
+        itemCopy.appendChild(spanForDate);
+        todolistchecked.appendChild(itemCopy);
+        item.remove();
+        setTimeout(() => {
+          itemCopy.classList.remove("fadeOutChecked");
+        }, 500);
+      }, 500);
     }
   }
 });

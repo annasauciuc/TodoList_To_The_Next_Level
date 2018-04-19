@@ -75,6 +75,11 @@ li.todoitem:hover {
 }
 
 li.todoitem.checked {
+  justify-content: center;
+}
+
+li.todoitem.checked p {
+  margin-right: 10px;
 }
 li.todoitem.checked:hover span.finishedDate {
   color: black;
@@ -164,11 +169,15 @@ div.alert p.error {
   text-align: center;
 }
 
-.fadeOut {
+.fadeOutDelete {
   animation: fade 2s linear;
   background: rgb(253, 119, 107);
 }
 
+.fadeOutChecked {
+  animation: fade 2s linear;
+  background: rgb(67, 199, 19);
+}
 button {
   background: green;
   color: white;
