@@ -1,0 +1,281 @@
+body {
+  padding: 0;
+  box-sizing: border-box;
+  background-color: rgba(21, 21, 59, 0.7);
+  color: white;
+}
+
+div.containers {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+div.main-container {
+  margin: 1em auto;
+  -webkit-box-shadow: 1px 5px 12px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 5px 12px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 1px 5px 12px 0px rgba(0, 0, 0, 0.75);
+  padding: 1em;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: rgba(10, 10, 1, 0.8);
+  transition: 0.4s ease-in all;
+  text-align: center;
+  border-radius: 2px;
+  width: 600px;
+}
+
+h4 {
+  background-color: rgba(251, 180, 99, 0.6);
+  padding: 0.5em;
+  border-radius: 5px;
+}
+
+div.main-container:hover {
+  -webkit-box-shadow: 1px 5px 12px -28px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 1px 5px 12px -28px rgba(0, 0, 0, 0.75);
+  box-shadow: 1px 5px 12px -28px rgba(0, 0, 0, 0.75);
+  border: 1px solid #fafafa;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0.1em;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 450px;
+}
+
+li.todoitem {
+  padding: 0.4em;
+  color: blueviolet;
+  transition: 0.3s ease-in all;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 19px;
+  line-height: 1.1;
+  width: 100%;
+  opacity: 1;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+
+li.todoitem:hover {
+  background: gainsboro;
+  padding: 0.3em 0;
+  padding-left: 0.3em;
+  border-radius: 5px;
+}
+
+li.todoitem.checked {
+}
+li.todoitem.checked:hover span.finishedDate {
+  color: black;
+}
+li.todoitem div {
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+
+li.todoitem p {
+  margin-right: 2px;
+  margin-left: 2px;
+}
+
+span.finishedDate {
+  font-style: italic;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: yellow;
+  transition: 0.2s linear all;
+}
+span#infoTask,
+span#infoAction {
+  font-weight: bold;
+  font-style: italic;
+}
+
+span#infoTask {
+  color: blue;
+}
+
+form {
+  margin: 1em auto;
+  padding: 0.3em;
+  text-align: center;
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+form input.addInput {
+  border: none;
+  font-size: 25px;
+  background: rgba(240, 255, 255, 0.7);
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  width: 60%;
+  transition: 0.3s ease all;
+}
+
+form input.addInput:focus {
+  padding: 0.4em;
+  background-color: rgb(243, 233, 233);
+}
+
+div.alert {
+  background: rgb(204, 26, 26);
+  border-radius: 8px;
+  width: 50%;
+  padding: 0.4em;
+  margin: 0 auto;
+  display: none;
+  position: fixed;
+  top: 4%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+div.alert span.dismiss-alert {
+  color: white;
+  font-size: 25px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1px 3px;
+  padding: 1px 3px;
+  cursor: pointer;
+}
+
+div.alert p.error {
+  color: rgb(104, 7, 7);
+  font-style: italic;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+}
+
+.fadeOut {
+  animation: fade 2s linear;
+  background: rgb(253, 119, 107);
+}
+
+button {
+  background: green;
+  color: white;
+  padding: 0.3em;
+  border: 1px white solid;
+  font-size: 16px;
+  transition: 0.3s ease all;
+}
+
+button.check {
+  background: green;
+}
+
+button.delete {
+  background: red;
+}
+
+button:hover {
+  padding: 0.5em;
+  cursor: pointer;
+}
+
+button:disabled,
+button[disabled] {
+  border: 1px solid #999999;
+  background-color: rgb(204, 26, 26);
+}
+
+@keyframes fade {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  /**
+ * At the start of the animation the dot
+ * has an opacity of .2
+ */
+  0% {
+    opacity: 0.2;
+  }
+  /**
+ * At 20% the dot is fully visible and
+ * then fades out slowly
+ */
+  20% {
+    opacity: 1;
+  }
+  /**
+ * Until it reaches an opacity of .2 and
+ * the animation can start again
+ */
+  100% {
+    opacity: 0.2;
+  }
+}
+
+.saving {
+  width: 100px;
+}
+
+.saving span {
+  /**
+ * Use the blink animation, which is defined above
+ */
+  animation-name: blink;
+  /**
+ * The animation should take 1.4 seconds
+ */
+  animation-duration: 1.4s;
+  /**
+ * It will repeat itself forever
+ */
+  animation-iteration-count: infinite;
+  /**
+ * This makes sure that the starting style (opacity: .2)
+ * of the animation is applied before the animation starts.
+ * Otherwise we would see a short flash or would have
+ * to set the default styling of the dots to the same
+ * as the animation. Same applies for the ending styles.
+ */
+  animation-fill-mode: both;
+  margin-right: 10px;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.saving span:nth-child(2) {
+  /**
+ * Starts the animation of the third dot
+ * with a delay of .2s, otherwise all dots
+ * would animate at the same time
+ */
+  animation-delay: 0.2s;
+}
+
+.saving span:nth-child(3) {
+  /**
+ * Starts the animation of the third dot
+ * with a delay of .4s, otherwise all dots
+ * would animate at the same time
+ */
+  animation-delay: 0.4s;
+}
