@@ -29,6 +29,12 @@
         border-radius: 2px;
     }
 
+    h4 {
+        background-color: rgba(251, 180, 99, 0.6);
+        padding: 0.5em;
+        border-radius: 5px;
+    }
+
     div.main-container:hover {
         -webkit-box-shadow: 1px 5px 12px -28px rgba(0, 0, 0, 0.75);
         -moz-box-shadow: 1px 5px 12px -28px rgba(0, 0, 0, 0.75);
@@ -44,6 +50,9 @@
         display: flex;
         flex-direction: column;
         align-content: center;
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: 450px;
     }
 
     li {
@@ -56,7 +65,7 @@
         width: 100%;
         opacity: 1;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-content: center;
         align-items: center;
     }
@@ -74,7 +83,7 @@
         align-items: center;
     }
 
-    li div p {
+    li p {
         margin-right: 2px;
         margin-left: 2px;
     }
@@ -97,6 +106,9 @@
         width: 70%;
         display: flex;
         justify-content: center;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
     }
 
     form input.addInput {
@@ -106,6 +118,7 @@
         font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         width: 60%;
         transition: 0.3s ease all;
+
     }
 
     form input.addInput:focus {
@@ -314,10 +327,10 @@
 
         todolist.addEventListener('click', (e) => {
             if (e.target.className === "delete") {
-                const audio = new Audio('sounds/deleteSound.mp3');
-                audio.currentTime = 1.5;
-                audio.play();
                 if (confirm("¿Estas seguro de querer borrarlo?")) {
+                    const audio = new Audio('sounds/deleteSound.mp3');
+                    audio.currentTime = 1.5;
+                    audio.play();
                     let todoItem = e.target.parentNode.parentNode;
                     let todoItemValue = todoItem.firstElementChild.innerText;
                     todoItem.classList.add("fadeOut");
