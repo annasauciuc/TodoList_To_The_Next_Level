@@ -31,38 +31,46 @@ todolist.addEventListener("click", e => {
       audio.currentTime = 1.5;
       audio.play();
       let todoItem = e.target.parentNode.parentNode;
-      let todoItemValue = todoItem.firstElementChild.innerText;
-      todoItem.classList.add("fadeOutDeleted");
-      setTimeout(() => {
-        todolist.removeChild(todoItem);
-        infoTask.innerText = todoItemValue.trim();
-        infoAction.innerText = "borrada";
-        infoAction.style.color = "red";
-      }, 2000);
+      deleteItem(todoItem);
     }
   } else if (e.target.className === "check") {
     if (confirm("¿Estas seguro de dar la tarea por finalizada?")) {
       const item = e.target.parentNode.parentNode;
-      item.classList.add("fadeOutChecked");
-      const audio = new Audio("sounds/successSound.mp3");
-      audio.play();
-      setTimeout(() => {
-        item.removeChild(item.children[1]); //Remove div that have buttons
-        const itemCopy = item.cloneNode(true);
-        itemCopy.classList.add("checked");
-        const spanForDate = document.createElement("span");
-        spanForDate.classList.add("finishedDate");
-        spanForDate.innerText = `${new Date().toLocaleDateString()} ~ ${new Date().toLocaleTimeString()} `;
-        itemCopy.appendChild(spanForDate);
-        todolistchecked.appendChild(itemCopy);
-        item.remove();
-        setTimeout(() => {
-          itemCopy.classList.remove("fadeOutChecked");
-        }, 500);
-      }, 500);
+      checkItem(item);
     }
   }
 });
+
+function deleteItem(todoItem) {
+  let todoItemValue = todoItem.firstElementChild.innerText;
+  todoItem.classList.add("fadeOutDeleted");
+  setTimeout(() => {
+    todolist.removeChild(todoItem);
+    infoTask.innerText = todoItemValue.trim();
+    infoAction.innerText = "borrada";
+    infoAction.style.color = "red";
+  }, 2000);
+}
+
+function checkItem(item) {
+  item.classList.add("fadeOutChecked");
+  const audio = new Audio("sounds/successSound.mp3");
+  audio.play();
+  setTimeout(() => {
+    item.removeChild(item.children[1]); //Remove div that have buttons
+    const itemCopy = item.cloneNode(true);
+    itemCopy.classList.add("checked");
+    const spanForDate = document.createElement("span");
+    spanForDate.classList.add("finishedDate");
+    spanForDate.innerText = `${new Date().toLocaleDateString()} ~ ${new Date().toLocaleTimeString()} `;
+    itemCopy.appendChild(spanForDate);
+    todolistchecked.appendChild(itemCopy);
+    item.remove();
+    setTimeout(() => {
+      itemCopy.classList.remove("fadeOutChecked");
+    }, 500);
+  }, 500);
+}
 
 dismissButton.addEventListener(
   "click",
@@ -152,7 +160,7 @@ function buttonLoading(button, load = true) {
 
 function urlTransformer(url) {
   console.log("Transforming URL: %s", url);
-  return "http://goodsite.com/goodimage.jpg";
+  return "https://conniejjasperson.files.wordpress.com/2015/08/keep-calm-and-say-you-fool-you-damn-fool.png";
 }
 
 // Takes in an element ID or class name and either modifies it or strips it by returning null

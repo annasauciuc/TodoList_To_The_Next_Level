@@ -169,7 +169,7 @@ div.alert p.error {
   text-align: center;
 }
 
-.fadeOutDelete {
+.fadeOutDeleted {
   animation: fade 2s linear;
   background: rgb(253, 119, 107);
 }
