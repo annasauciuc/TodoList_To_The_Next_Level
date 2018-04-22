@@ -1,35 +1,45 @@
+//ACTIVE DOM ELEMENTS
 const form = getID("todoform");
-const todolist = getID("todolist");
-const todolistchecked = getID("todolistchecked");
-const infotask = getID("infoTask");
-const infoAction = getID("infoAction");
-const addInput = document.querySelector("form#todoform input.addInput");
-const errorAlert = document.querySelector("div.alert");
-const error = document.querySelector("p.error");
-const dismissButton = document.querySelector("div.alert span.dismiss-alert");
+(todolist = getID("todolist")),
+  (todolistchecked = getID("todolistchecked")),
+  (infotask = getID("infoTask")),
+  (infoAction = getID("infoAction")),
+  (addInput = document.querySelector("form#todoform input.addInput")),
+  (errorAlert = document.querySelector("div.alert")),
+  (error = document.querySelector("p.error")),
+  (dismissButton = document.querySelector("div.alert span.dismiss-alert"));
+
+//AUDIOS
+const deleteAudio = new Audio("sounds/deleteSound.mp3"),
+  errorAudio = new Audio("sounds/errorSound.mp3"),
+  successAudio = new Audio("sounds/successSound.mp3"),
+  pingAudio = new Audio("sounds/pingSound.mp3");
 
 form.addEventListener("submit", e => {
   e.preventDefault();
-  let formInput = document.querySelector(`form#${e.target.id} .addInput`);
-  let addButton = document.querySelector(`form#${e.target.id} button`);
-  let inputData = formInput.value;
+  let formInput = document.querySelector(`form#${e.target.id} .addInput`),
+    addButton = document.querySelector(`form#${e.target.id} button`),
+    inputData = formInput.value;
+
   if (validateInput(inputData, addButton)) {
     buttonLoading(addButton);
-    createTodoItem(inputData);
-    infotask.innerText = inputData.trim();
-    infoAction.innerText = "añadida";
-    infoAction.style.color = "green";
-    addInput.value = "";
-    buttonLoading(addButton, false);
+    //FAKE LOAD EFFECT DELAY TO IMPROVE THE UX
+    setTimeout(() => {
+      createTodoItem(inputData);
+      infotask.innerText = inputData.trim();
+      infoAction.innerText = "añadida";
+      infoAction.style.color = "green";
+      addInput.value = "";
+      buttonLoading(addButton, false);
+    }, 800);
   }
 });
 
 todolist.addEventListener("click", e => {
   if (e.target.className === "delete") {
     if (confirm("¿Estas seguro de querer borrarlo?")) {
-      const audio = new Audio("sounds/deleteSound.mp3");
-      audio.currentTime = 1.5;
-      audio.play();
+      deleteAudio.currentTime = 1.5;
+      deleteAudio.play();
       let todoItem = e.target.parentNode.parentNode;
       deleteItem(todoItem);
     }
@@ -54,8 +64,7 @@ function deleteItem(todoItem) {
 
 function checkItem(item) {
   item.classList.add("fadeOutChecked");
-  const audio = new Audio("sounds/successSound.mp3");
-  audio.play();
+  successAudio.play();
   setTimeout(() => {
     item.removeChild(item.children[1]); //Remove div that have buttons
     const itemCopy = item.cloneNode(true);
@@ -109,6 +118,7 @@ function createTodoItem(inputData) {
   li.appendChild(wrapperDivButtons);
   fragment.appendChild(li);
   todolist.appendChild(fragment);
+  pingAudio.play();
 }
 
 function validateInput(inputData, addButon) {
@@ -121,8 +131,7 @@ function validateInput(inputData, addButon) {
       errorAlert.style.display = "none";
     }, 3000);
 
-    const audio = new Audio("sounds/errorSound.mp3");
-    audio.play();
+    errorAudio.play();
     errorAlert.style.display = "block";
     error.innerText = "No se puede añadir una tarea vacia";
     return false;
@@ -144,13 +153,15 @@ function getID(id) {
 function buttonLoading(button, load = true) {
   if (load) {
     button.innerText = "";
-    let count = 0;
+    let count = 0,
+      spanFragment = document.createDocumentFragment();
     while (count < 3) {
       let span = document.createElement("span");
       span.innerText = ".";
-      button.appendChild(span);
+      spanFragment.appendChild(span);
       count++;
     }
+    button.appendChild(spanFragment);
     button.classList.add("saving");
   } else {
     button.innerHTML = "Nueva tarea";
