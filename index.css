@@ -4,7 +4,15 @@ body {
   background-color: rgba(21, 21, 59, 0.7);
   color: white;
 }
+div.dropdownTasks {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 30px;
+}
 
+.expanded {
+  max-height: 500px !important;
+}
 div.containers {
   display: flex;
   align-items: flex-start;
@@ -106,16 +114,21 @@ span.finishedDate {
   color: yellow;
   transition: 0.2s linear all;
 }
-span#infoTask,
-span#infoAction {
-  font-weight: bold;
-  font-style: italic;
+i.fa {
+  font-size: 20px;
+  margin-right: 5px;
+}
+i.fa-check {
+  color: rgb(10, 93, 10);
 }
 
-span#infoTask {
-  color: blue;
+i.fa-exclamation {
+  color: #eef523;
 }
 
+i.fa-times {
+  color: rgb(231, 64, 64);
+}
 form {
   margin: 1em auto;
   padding: 0.3em;

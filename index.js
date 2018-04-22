@@ -3,8 +3,7 @@ const form = getID("todoform");
 (todolist = getID("todolist")),
   (todolistchecked = getID("todolistchecked")),
   (actionHistorial = document.querySelector("div.actionHistorial")),
-  (infoTask = getID("infoTask")),
-  (infoAction = getID("infoAction")),
+  (dropdownTasks = document.querySelector("div.dropdownTasks a ")),
   (addInput = document.querySelector("form#todoform input.addInput")),
   (errorAlert = document.querySelector("div.alert")),
   (error = document.querySelector("p.error")),
@@ -15,6 +14,8 @@ const deleteAudio = new Audio("sounds/deleteSound.mp3"),
   errorAudio = new Audio("sounds/errorSound.mp3"),
   successAudio = new Audio("sounds/successSound.mp3"),
   pingAudio = new Audio("sounds/pingSound.mp3");
+
+dropdownTasks.addEventListener("click", toggleTasksDropdown);
 
 form.addEventListener("submit", e => {
   e.preventDefault();
@@ -34,31 +35,54 @@ form.addEventListener("submit", e => {
   }
 });
 
+function toggleTasksDropdown(e) {
+  e.preventDefault();
+  let selectedIcon = e.target,
+    classToRemove = "",
+    classToAdd = "";
+
+  if (selectedIcon.classList.contains("fa-arrow-down")) {
+    classToRemove = "fa-arrow-down";
+    classToAdd = "fa-arrow-up";
+    actionHistorial.classList.remove("expanded");
+  } else {
+    classToRemove = "fa-arrow-up";
+    classToAdd = "fa-arrow-down";
+    actionHistorial.classList.add("expanded");
+  }
+  selectedIcon.classList.remove(classToRemove);
+  selectedIcon.classList.add(classToAdd);
+}
+
 function createHistorialAction(inputData, type) {
   const spanFragment = document.createDocumentFragment();
   h4 = document.createElement("h4");
   let actionType = "",
-    backgroundColor = "";
+    backgroundColor = "",
+    icon = "";
 
   switch (type) {
     case "added":
       actionType = "añadida";
-      backgroundColor = "#eef523";
+      backgroundColor = "rgb(189, 189, 11)";
+      icon = "fa-exclamation";
       break;
     case "checked":
       actionType = "terminada";
       backgroundColor = " #0c990c";
-
+      icon = "fa-check";
       break;
     case "deleted":
       actionType = "borrada";
       backgroundColor = "#a11e12";
-
+      icon = "fa-times";
       break;
   }
-  h4.innerText = `${inputData.trim()} ha sido ${actionType} con éxito el ${new Date().toLocaleDateString()}  `;
+
+  h4.innerHTML = `<i class="fas ${icon}"></i> ${inputData.trim()} ha sido ${actionType} con éxito el ${new Date().toLocaleDateString()}  `;
   h4.style.backgroundColor = backgroundColor;
   actionHistorial.appendChild(h4);
+  h4.scrollIntoView({ block: "end", behavior: "smooth" });
 }
 todolist.addEventListener("click", e => {
   if (e.target.className === "delete") {
