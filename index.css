@@ -11,7 +11,7 @@ div.dropdownTasks {
 }
 
 .expanded {
-  max-height: 500px !important;
+  max-height: 350px !important;
 }
 div.containers {
   display: flex;

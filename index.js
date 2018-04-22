@@ -31,25 +31,28 @@ form.addEventListener("submit", e => {
       createHistorialAction(inputData, "added");
       addInput.value = "";
       buttonLoading(addButton, false);
-    }, 700);
+    }, 900);
   }
 });
 
 function toggleTasksDropdown(e) {
   e.preventDefault();
-  let selectedIcon = e.target,
-    classToRemove = "",
-    classToAdd = "";
+  //Esto es para elegir el elemento i dependiendo de si se clicka
+  //en el elemento "a" o el propio icono "i"
+
+  let selectedIcon = e.target.tagName === "A" ? e.target.children[0] : e.target;
+  (classToRemove = ""), (classToAdd = "");
 
   if (selectedIcon.classList.contains("fa-arrow-down")) {
     classToRemove = "fa-arrow-down";
     classToAdd = "fa-arrow-up";
-    actionHistorial.classList.remove("expanded");
+    actionHistorial.classList.add("expanded");
   } else {
     classToRemove = "fa-arrow-up";
     classToAdd = "fa-arrow-down";
-    actionHistorial.classList.add("expanded");
+    actionHistorial.classList.remove("expanded");
   }
+  console.log(actionHistorial.classList);
   selectedIcon.classList.remove(classToRemove);
   selectedIcon.classList.add(classToAdd);
 }
