@@ -26,10 +26,15 @@ div.main-container {
   width: 600px;
 }
 
+div.actionHistorial {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 80px;
+}
 h4 {
-  background-color: rgba(251, 180, 99, 0.6);
   padding: 0.5em;
-  border-radius: 5px;
+  margin: 0;
+  border-top: 1px solid white;
 }
 
 div.main-container:hover {
@@ -146,7 +151,7 @@ div.alert {
   margin: 0 auto;
   display: none;
   position: fixed;
-  top: 4%;
+  top: 4.8%;
   left: 50%;
   transform: translate(-50%, -50%);
 }

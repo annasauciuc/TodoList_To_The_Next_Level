@@ -2,7 +2,8 @@
 const form = getID("todoform");
 (todolist = getID("todolist")),
   (todolistchecked = getID("todolistchecked")),
-  (infotask = getID("infoTask")),
+  (actionHistorial = document.querySelector("div.actionHistorial")),
+  (infoTask = getID("infoTask")),
   (infoAction = getID("infoAction")),
   (addInput = document.querySelector("form#todoform input.addInput")),
   (errorAlert = document.querySelector("div.alert")),
@@ -26,15 +27,39 @@ form.addEventListener("submit", e => {
     //FAKE LOAD EFFECT DELAY TO IMPROVE THE UX
     setTimeout(() => {
       createTodoItem(inputData);
-      infotask.innerText = inputData.trim();
-      infoAction.innerText = "añadida";
-      infoAction.style.color = "green";
+      createHistorialAction(inputData, "added");
       addInput.value = "";
       buttonLoading(addButton, false);
-    }, 800);
+    }, 700);
   }
 });
 
+function createHistorialAction(inputData, type) {
+  const spanFragment = document.createDocumentFragment();
+  h4 = document.createElement("h4");
+  let actionType = "",
+    backgroundColor = "";
+
+  switch (type) {
+    case "added":
+      actionType = "añadida";
+      backgroundColor = "#eef523";
+      break;
+    case "checked":
+      actionType = "terminada";
+      backgroundColor = " #0c990c";
+
+      break;
+    case "deleted":
+      actionType = "borrada";
+      backgroundColor = "#a11e12";
+
+      break;
+  }
+  h4.innerText = `${inputData.trim()} ha sido ${actionType} con éxito el ${new Date().toLocaleDateString()}  `;
+  h4.style.backgroundColor = backgroundColor;
+  actionHistorial.appendChild(h4);
+}
 todolist.addEventListener("click", e => {
   if (e.target.className === "delete") {
     if (confirm("¿Estas seguro de querer borrarlo?")) {
@@ -56,9 +81,7 @@ function deleteItem(todoItem) {
   todoItem.classList.add("fadeOutDeleted");
   setTimeout(() => {
     todolist.removeChild(todoItem);
-    infoTask.innerText = todoItemValue.trim();
-    infoAction.innerText = "borrada";
-    infoAction.style.color = "red";
+    createHistorialAction(todoItemValue, "deleted");
   }, 2000);
 }
 
@@ -67,16 +90,22 @@ function checkItem(item) {
   successAudio.play();
   setTimeout(() => {
     item.removeChild(item.children[1]); //Remove div that have buttons
+
     const itemCopy = item.cloneNode(true);
+    const itemTaskData = itemCopy.children[0].innerText;
     itemCopy.classList.add("checked");
+
     const spanForDate = document.createElement("span");
     spanForDate.classList.add("finishedDate");
     spanForDate.innerText = `${new Date().toLocaleDateString()} ~ ${new Date().toLocaleTimeString()} `;
+
     itemCopy.appendChild(spanForDate);
     todolistchecked.appendChild(itemCopy);
     item.remove();
+    console.log(itemCopy);
     setTimeout(() => {
       itemCopy.classList.remove("fadeOutChecked");
+      createHistorialAction(itemTaskData, "checked");
     }, 500);
   }, 500);
 }
@@ -118,7 +147,7 @@ function createTodoItem(inputData) {
   li.appendChild(wrapperDivButtons);
   fragment.appendChild(li);
   todolist.appendChild(fragment);
-  pingAudio.play();
+  pingAudio.play(); //Confirm the added item
 }
 
 function validateInput(inputData, addButon) {
