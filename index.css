@@ -34,6 +34,12 @@ div.main-container {
   width: 600px;
 }
 
+div.main-container h1 {
+  margin: 0.1em;
+}
+div.main-container a {
+  margin-bottom: 0.2em;
+}
 div.actionHistorial {
   overflow-x: hidden;
   overflow-y: auto;
