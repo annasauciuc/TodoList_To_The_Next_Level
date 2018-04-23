@@ -33,11 +33,13 @@ if (storageAvailable("localStorage")) {
 
     if (validateInput(inputData, addButton)) {
       buttonLoading(addButton);
+      addInput.disabled = true;
       //FAKE LOAD EFFECT DELAY TO IMPROVE THE UX
       setTimeout(() => {
         createTodoItem(inputData);
         createHistorialAction(inputData, "added");
         addInput.value = "";
+        addInput.disabled = false;
         buttonLoading(addButton, false);
       }, 900);
     }
