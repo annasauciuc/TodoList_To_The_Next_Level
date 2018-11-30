@@ -1,4 +1,24 @@
 //Check if the user browser can use localStorage
+function starCreate(left, top, starImage) {
+    var star = stars.create(left, top, starImage);
+    star.animations.add('spin');
+    star.animations.play('spin', 8, true);
+}
+
+function poisonCreate(left, top, poisonImage) {
+    var poison = poisons.create(left, top, poisonImage);
+    poison.animations.add('bubble');
+    poison.animations.play('bubble', 8, true);
+}
+
+function starCollect(player, star) {
+    star.kill();
+    currentScore = currentScore + 20;
+    if (currentScore === winningScore) {
+        won = true;
+    }
+}
+
 if (storageAvailable("localStorage")) {
     //ACTIVE DOM ELEMENTS
     const form = getID("todoform");
