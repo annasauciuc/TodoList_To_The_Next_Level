@@ -5,6 +5,12 @@ body {
     color: white;
 }
 
+div.dropdownTasks {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 30px;
+}
+
 .expanded {
     max-height: 350px !important;
 }
@@ -221,6 +227,7 @@ button.check {
 
 button.delete {
     background: red;
+    margin-right: 10px;
 }
 
 button:hover {
